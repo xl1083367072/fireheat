@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
+  <display-name>hrm</display-name>
+  <welcome-file-list>
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+  
+  <!-- springmvc前端控制器 -->
+  <servlet>
+  	<servlet-name>springMvc</servlet-name>
+  	<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+  	<!-- springMvc前端控制器要记载springMvc核心配置文件 -->
+  	<init-param>
+  		<param-name>contextConfigLocation</param-name>
+  		<param-value>classpath:SpringMvc.xml</param-value>
+  	</init-param>
+  	<!-- 0表示请求时加载,其他数字表示启动时就加载,数字表示加载顺序 -->
+  	<load-on-startup>1</load-on-startup>
+  </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>springMvc</servlet-name>
+  	<url-pattern>/</url-pattern>
+  </servlet-mapping>
+  
+  
+  <!-- 加载spring配置文件 -->
+  <context-param>
+  	<param-name>contextConfigLocation</param-name>
+  	<param-value>classpath:applicationContext.xml</param-value>
+  </context-param>
+  
+  <!-- Spring的监听器 -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+
+	<!-- POST提交过滤器 UTF-8 -->
+	<filter>
+		<filter-name>encoding</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>encoding</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<!--jsp页面配置  -->
+	<jsp-config>
+		<jsp-property-group>
+			<!--拦截所有jsp文件  -->
+			<url-pattern>*.jsp</url-pattern>
+			<!--可以适用el表达式  -->
+			<el-ignored>false</el-ignored>
+			<!-- 不能使用jsp脚本 -->
+			<scripting-invalid>true</scripting-invalid>
+			<!--给所有jsp页面配置依赖，这里是一个标签库文件  -->
+			<include-prelude>/WEB-INF/jsp/taglib.jsp</include-prelude>
+		</jsp-property-group>
+	</jsp-config>
+	<!--配置错误页面  -->
+	<!-- <error-page>
+		<error-code>404</error-code>
+		<location>/404.html</location>
+	</error-page> -->
+</web-app>
